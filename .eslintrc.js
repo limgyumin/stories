@@ -6,14 +6,11 @@ module.exports = {
   },
   plugins: ["unicorn"],
   extends: [
-    "next",
+    "next/core-web-vitals",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:import/recommended",
     "plugin:prettier/recommended",
-    "plugin:@next/next/recommended",
-    "plugin:react/recommended",
-    "plugin:react-hooks/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
@@ -26,8 +23,7 @@ module.exports = {
     "no-console": ["warn", { allow: ["error"] }],
     "no-unused-vars": "warn",
     "no-undef": "error",
-    "class-methods-use-this": "off",
-    "object-shorthand": ["error", "always"],
+    "object-shorthand": "error",
     "require-await": "off",
     curly: ["error", "all"],
 
