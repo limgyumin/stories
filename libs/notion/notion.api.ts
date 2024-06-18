@@ -1,8 +1,9 @@
 import "server-only";
 
-import type { QueryDatabaseParameters, QueryDatabaseResponse } from "./notion.types";
 import { camelcaseKeys } from "utils/camelcase-keys";
+
 import { client } from "./notion.client";
+import type { QueryDatabaseParameters, QueryDatabaseResponse } from "./notion.types";
 
 export const queryDatabase = async <T extends QueryDatabaseResponse>(options: QueryDatabaseParameters): Promise<T> => {
   const { databaseId, pageSize, startCursor, sorts, filter } = options;
