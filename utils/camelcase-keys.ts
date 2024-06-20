@@ -1,8 +1,8 @@
-import type { Obj } from "types/utils/obj";
 import type { CamelcaseKeys } from "types/utils/camelcase-keys";
+import type { Obj } from "types/utils/obj";
 
-import { entries } from "./entries";
 import { camelcase } from "./camelcase";
+import { entries } from "./entries";
 import { isObject } from "./is-object";
 
 export const camelcaseKeys = <T extends Obj>(obj: T): CamelcaseKeys<T> => {

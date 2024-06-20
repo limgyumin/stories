@@ -4,8 +4,8 @@ import type {
   QueryDatabaseParameters as _QueryDatabaseParameters,
 } from "@notionhq/client/build/src/api-endpoints";
 
-import type { Override } from "types/utils/override";
 import type { CamelcaseKeys } from "types/utils/camelcase-keys";
+import type { Override } from "types/utils/override";
 
 export type PageObjectResponse = CamelcaseKeys<_PageObjectResponse>;
 

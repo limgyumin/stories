@@ -1,8 +1,9 @@
 import "server-only";
 
-import type { Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
-import { queryDatabase } from "libs/notion/notion.api";
 import { cache } from "react";
+
+import { queryDatabase } from "libs/notion/notion.api";
+import type { Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
 
 export type ArticlesOptions = Pick<QueryDatabaseParameters, "pageSize" | "startCursor">;
 
