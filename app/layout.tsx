@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 
 import type { PropsWithChildren } from "react";
 
-import { Container } from "components/layout/container";
+import { Footer } from "components/ui/footer";
 import { Header } from "components/ui/header";
 import { pretendard } from "libs/next/font";
 
@@ -18,16 +18,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: PropsWithChildren) {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko" className={pretendard.className} suppressHydrationWarning>
       <body className="min-h-screen w-full">
         <Header />
-
-        <main className="w-full">
-          <Container className="pt-10">{children}</Container>
-        </main>
+        <main className="w-full">{children}</main>
+        <Footer />
       </body>
     </html>
   );
-}
+};
+
+export default RootLayout;
