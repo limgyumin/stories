@@ -8,7 +8,7 @@ export const Contact = () => {
           key={platform.name}
           className="border-muted-foreground border-l px-2 first:border-none first:pl-0 last:pr-0"
         >
-          <a className="text-muted-foreground text-lg" href={platform.url} target="_blank">
+          <a className="text-muted-foreground text-lg" href={platform.url} target="_blank" title={platform.title}>
             {platform.icon}
           </a>
         </div>
