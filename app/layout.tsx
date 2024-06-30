@@ -8,6 +8,8 @@ import { pretendard } from "libs/next/font";
 
 import "styles/global.css";
 
+import { Providers } from "./providers";
+
 export const metadata: Metadata = {
   title: {
     template: "%s - Nonamed",
@@ -21,10 +23,12 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko" className={pretendard.className} suppressHydrationWarning>
-      <body className="min-h-screen w-full">
-        <Header />
-        <main className="w-full">{children}</main>
-        <Footer />
+      <body>
+        <Providers>
+          <Header />
+          <main className="min-h-screen w-full">{children}</main>
+          <Footer />
+        </Providers>
       </body>
     </html>
   );
