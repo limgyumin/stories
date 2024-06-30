@@ -7,7 +7,7 @@ type Props = ComponentPropsWithoutRef<"div">;
 
 export const Container = forwardRef<HTMLDivElement, Props>(({ children, className, ...rest }, ref) => {
   return (
-    <div ref={ref} className={cx(className, "mx-auto box-content max-w-5xl overflow-x-hidden px-5")} {...rest}>
+    <div ref={ref} className={cx(className, "mx-auto box-content max-w-5xl px-5")} {...rest}>
       {children}
     </div>
   );
