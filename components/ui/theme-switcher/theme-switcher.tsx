@@ -14,15 +14,15 @@ export const ThemeSwitcher = () => {
   return (
     <Lazy>
       <Toggle.Root value={theme} onValueChange={setTheme}>
-        <Toggle.Switch value="light">
+        <Toggle.Switch value="light" title="Light" aria-label="Switch to light theme">
           <IoSunnyOutline />
         </Toggle.Switch>
 
-        <Toggle.Switch value="system">
+        <Toggle.Switch value="system" title="System" aria-label="Switch to system theme">
           <IoLaptopOutline />
         </Toggle.Switch>
 
-        <Toggle.Switch value="dark">
+        <Toggle.Switch value="dark" title="Dark" aria-label="Switch to dark theme">
           <IoMoonOutline />
         </Toggle.Switch>
       </Toggle.Root>
