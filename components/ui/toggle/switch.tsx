@@ -26,7 +26,7 @@ export const Switch = forwardRef<HTMLButtonElement, Props>(({ children, classNam
       className={cx(
         className,
         { "bg-muted": active },
-        "text-muted-foreground flex h-7 w-7 items-center justify-center rounded-full",
+        "flex h-7 w-7 items-center justify-center rounded-full text-muted-foreground",
       )}
       onClick={handleClick}
       {...rest}
