@@ -1,10 +1,10 @@
 import type { PageObjectResponse, Property } from "./notion.types";
 
-export const getPlainText = (property: Property<"rich_text" | "title">): string => {
+export const getPlainText = (property: Property<"rich_text" | "title">): string | undefined => {
   if (property.type === "rich_text") {
-    return property.richText[0]?.plainText || "";
+    return property.richText[0]?.plainText;
   } else {
-    return property.title[0]?.plainText || "";
+    return property.title[0]?.plainText;
   }
 };
 

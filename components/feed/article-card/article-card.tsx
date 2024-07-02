@@ -8,8 +8,8 @@ type Props = {
 };
 
 export const ArticleCard = ({ article }: Props) => {
-  const title = getPlainText(article.properties.Title);
-  const description = getPlainText(article.properties.Description);
+  const title = getPlainText(article.properties.Title) ?? "";
+  const description = getPlainText(article.properties.Description) ?? "";
   const coverImageUrl = getCoverImageUrl(article.cover) ?? "";
 
   return (
