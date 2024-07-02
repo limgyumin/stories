@@ -7,7 +7,7 @@ type Props = ComponentPropsWithoutRef<"p">;
 
 export const Description = forwardRef<HTMLParagraphElement, Props>(({ children, className, ...rest }, ref) => {
   return (
-    <p ref={ref} className={cx(className, "ellipsis-2 text-xs font-extralight text-gray-200")} {...rest}>
+    <p ref={ref} className={cx(className, "text-xs font-extralight text-gray-200 ellipsis-2")} {...rest}>
       {children}
     </p>
   );

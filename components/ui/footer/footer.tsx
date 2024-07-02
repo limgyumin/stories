@@ -9,8 +9,11 @@ export const Footer = () => {
       <Container>
         <div className="flex h-24 w-full items-center justify-between">
           <div className="flex items-center gap-6">
-            <p className="text-muted-foreground text-xs font-normal">© 2024 • milimgyu • All rights reserved</p>
-            <Contact />
+            <p className="text-xs font-normal text-muted-foreground">© 2024 • milimgyu • All rights reserved</p>
+
+            <div className="hidden sm:block">
+              <Contact />
+            </div>
           </div>
 
           <ThemeSwitcher />

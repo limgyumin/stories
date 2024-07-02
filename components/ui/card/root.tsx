@@ -7,7 +7,7 @@ type Props = ComponentPropsWithoutRef<"article">;
 
 export const Root = forwardRef<HTMLElement, Props>(({ children, className, ...rest }, ref) => {
   return (
-    <article ref={ref} className={cx(className, "relative overflow-hidden rounded-xl")} {...rest}>
+    <article ref={ref} className={cx(className, "relative overflow-hidden rounded-lg")} {...rest}>
       {children}
     </article>
   );
