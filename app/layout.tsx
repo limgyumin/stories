@@ -23,10 +23,10 @@ export const metadata: Metadata = {
 const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <html lang="ko" className={pretendard.className} suppressHydrationWarning>
-      <body>
+      <body className="min-h-screen">
         <Providers>
           <Header />
-          <main className="min-h-screen w-full">{children}</main>
+          <main className="w-full">{children}</main>
           <Footer />
         </Providers>
       </body>
