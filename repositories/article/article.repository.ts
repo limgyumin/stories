@@ -8,9 +8,11 @@ import type { Database, Page, QueryDatabaseParameters } from "libs/notion/notion
 export type ArticlesOptions = Pick<QueryDatabaseParameters, "pageSize" | "startCursor">;
 
 export type Article = Page<{
-  Title: "title";
-  Description: "rich_text";
-  Status: "select";
+  title: "title";
+  description: "rich_text";
+  status: "select";
+  series: "select";
+  publishedAt: "date";
 }>;
 
 export type ArticleDatabase = Database<Article>;
@@ -27,7 +29,7 @@ export const fetchArticles = cache((options?: ArticlesOptions) => {
     filter: {
       and: [
         {
-          property: "Status",
+          property: "status",
           select: {
             equals: "Published",
           },
@@ -36,7 +38,7 @@ export const fetchArticles = cache((options?: ArticlesOptions) => {
     },
     sorts: [
       {
-        timestamp: "last_edited_time",
+        property: "publishedAt",
         direction: "descending",
       },
     ],
