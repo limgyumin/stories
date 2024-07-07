@@ -1,14 +1,21 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ElementType, Ref } from "react";
 import { forwardRef } from "react";
 
+import type { ElementSelector } from "types/element-selector";
 import { cx } from "utils/cx";
 
-type Props = ComponentPropsWithoutRef<"article">;
+type Props<T extends ElementType> = ComponentPropsWithoutRef<T> & ElementSelector<T>;
 
-export const Root = forwardRef<HTMLElement, Props>(({ children, className, ...rest }, ref) => {
+const Root = <T extends ElementType>({ as, children, className, ...rest }: Props<T>, ref: Ref<any>) => {
+  const Component = as ?? "div";
+
   return (
-    <article ref={ref} className={cx(className, "relative overflow-hidden rounded-lg")} {...rest}>
+    <Component ref={ref} className={cx(className, "relative overflow-hidden rounded-lg")} {...rest}>
       {children}
-    </article>
+    </Component>
   );
-});
+};
+
+const Default = forwardRef(Root) as typeof Root;
+
+export { Default as Root };
