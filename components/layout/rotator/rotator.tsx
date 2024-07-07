@@ -1,16 +1,18 @@
 "use client";
 
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ElementType, Ref } from "react";
 import { forwardRef } from "react";
 
 import type { PanInfo } from "framer-motion";
 import { motion } from "framer-motion";
 
+import type { ElementSelector } from "types/element-selector";
+
 import { useDimensions, useRotate } from "./rotator.hooks";
 
-type Props = ComponentPropsWithoutRef<"div">;
+type Props<T extends ElementType> = ComponentPropsWithoutRef<T> & ElementSelector<T>;
 
-export const Rotator = forwardRef<HTMLDivElement, Props>(({ children, style, ...rest }, ref) => {
+const Rotator = <T extends ElementType>({ as, children, style, ...rest }: Props<T>, ref: Ref<any>) => {
   const [motionRef, getDimensions] = useDimensions<HTMLDivElement>();
   const [rotate, setRotate, clearRotate] = useRotate(getDimensions);
 
@@ -20,8 +22,10 @@ export const Rotator = forwardRef<HTMLDivElement, Props>(({ children, style, ...
     setRotate({ x: y, y: x });
   };
 
+  const Component = as ?? "div";
+
   return (
-    <div ref={ref} {...rest} style={{ ...style, perspective: 400 }}>
+    <Component ref={ref} {...rest} style={{ ...style, perspective: 400 }}>
       <motion.div
         ref={motionRef}
         style={{
@@ -38,6 +42,10 @@ export const Rotator = forwardRef<HTMLDivElement, Props>(({ children, style, ...
       >
         {children}
       </motion.div>
-    </div>
+    </Component>
   );
-});
+};
+
+const Default = forwardRef(Rotator) as typeof Rotator;
+
+export { Default as Rotator };

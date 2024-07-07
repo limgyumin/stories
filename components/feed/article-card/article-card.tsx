@@ -21,7 +21,7 @@ export const ArticleCard = ({ article }: Props) => {
   const formattedPublishedAt = publishedAt ? dayjs(publishedAt).format("MMM D, YYYY") : undefined;
 
   return (
-    <Rotator>
+    <Rotator as="article">
       <Card.Root>
         <Card.Content>
           <Card.Title>{title}</Card.Title>
