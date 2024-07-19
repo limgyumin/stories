@@ -2,8 +2,7 @@ import { isObject } from "./is-object";
 
 export type ClassName = string | Record<string, boolean> | null | undefined;
 
-// NOTE: 사용도가 잦으므로 속도를 위해 for 문을 사용합니다.
-export const cx = (...classNames: ClassName[]): string => {
+export const cx = (...classNames: ClassName[]): string | undefined => {
   let appended = "";
 
   for (const className of classNames) {
@@ -18,5 +17,5 @@ export const cx = (...classNames: ClassName[]): string => {
     }
   }
 
-  return appended.trim();
+  return appended.trim() || undefined;
 };
