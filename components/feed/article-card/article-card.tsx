@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import dayjs from "dayjs";
 
 import { Rotator } from "components/layout/rotator";
@@ -10,29 +12,31 @@ type Props = {
 };
 
 export const ArticleCard = ({ article }: Props) => {
-  const { properties, cover } = article;
+  const { id, properties, cover } = article;
 
   const title = getPlainText(properties.title) ?? "";
   const description = getPlainText(properties.description) ?? "";
   const coverImageUrl = getCoverImageUrl(cover) ?? "";
   const series = properties.series.select?.name ?? "";
-
   const publishedAt = properties.publishedAt.date?.start ?? "";
+
   const formattedPublishedAt = publishedAt ? dayjs(publishedAt).format("MMM D, YYYY") : undefined;
 
   return (
-    <Rotator as="article">
-      <Card.Root>
-        <Card.Content>
-          <Card.Title>{title}</Card.Title>
-          <Card.Description>{description}</Card.Description>
-          <Card.Meta>{formatMeta(series, formattedPublishedAt)}</Card.Meta>
-        </Card.Content>
+    <Rotator as="li">
+      <Link href={`/articles/${id}`} draggable={false}>
+        <Card.Root>
+          <Card.Content>
+            <Card.Title>{title}</Card.Title>
+            <Card.Description>{description}</Card.Description>
+            <Card.Meta>
+              {series} • {formattedPublishedAt}
+            </Card.Meta>
+          </Card.Content>
 
-        <Card.Thumbnail src={coverImageUrl} />
-      </Card.Root>
+          <Card.Thumbnail src={coverImageUrl} />
+        </Card.Root>
+      </Link>
     </Rotator>
   );
 };
-
-const formatMeta = (...args: (string | undefined)[]) => args.filter(Boolean).join(" • ");
