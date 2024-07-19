@@ -2,24 +2,29 @@ import type { CamelcaseKeys } from "types/utils/camelcase-keys";
 import type { Obj } from "types/utils/obj";
 
 import { camelcase } from "./camelcase";
-import { entries } from "./entries";
 import { isObject } from "./is-object";
 
 export const camelcaseKeys = <T extends Obj>(obj: T): CamelcaseKeys<T> => {
-  return entries(obj).reduce((acc, curr) => {
-    const [key, value] = curr;
+  let transformed = {} as CamelcaseKeys<T>;
 
-    const camelcaseKey = camelcase(String(key));
+  for (const key in obj) {
+    const value = obj[key];
 
-    acc = { ...acc, [camelcaseKey]: mapValue(value) };
+    transformed = { ...transformed, [camelcase(key)]: transform(value) };
+  }
 
-    return acc;
-  }, {} as CamelcaseKeys<T>);
+  return transformed;
 };
 
-const mapValue = <T>(value: T) => {
+const transform = <T>(value: T) => {
   if (Array.isArray(value)) {
-    return value.map((x) => (isObject(x) ? camelcaseKeys(x) : x));
+    const transformed: any[] = [];
+
+    for (const element of value) {
+      transformed.push(isObject(element) ? camelcaseKeys(element) : element);
+    }
+
+    return transformed;
   }
 
   return isObject(value) ? camelcaseKeys(value) : value;
