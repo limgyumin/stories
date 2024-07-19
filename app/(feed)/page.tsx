@@ -1,8 +1,6 @@
 import { Articles } from "components/feed/articles";
 import { fetchArticles } from "repositories/article/article.repository";
 
-export const runtime = "edge";
-
 export const revalidate = 3600;
 
 const FeedPage = async () => {

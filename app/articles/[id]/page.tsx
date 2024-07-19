@@ -11,8 +11,6 @@ type Props = {
 
 export const revalidate = 3600;
 
-export const runtime = "edge";
-
 const ArticlePage = async ({ params }: Props) => {
   const { id } = params;
 
