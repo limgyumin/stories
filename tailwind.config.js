@@ -7,6 +7,17 @@ module.exports = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
+      spacing: {
+        "container-sm": "var(--container-sm)",
+        "container-md": "var(--container-md)",
+        "container-inset": "var(--container-inset)",
+        "container-sm-inner": "var(--container-sm-inner)",
+        "container-sm-scroll": "var(--container-sm-scroll)",
+      },
+      screens: {
+        "container-sm": "672px",
+        "container-md": "1024px",
+      },
       colors: {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",

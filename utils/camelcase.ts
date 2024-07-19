@@ -1,11 +1,11 @@
 export const camelcase = (value: string): string => {
-  const words = value.split("_").map((word, index) => {
-    if (index === 0) {
-      return word;
-    }
+  let transformed = "";
 
-    return `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
-  });
+  const words = value.split("_").entries();
 
-  return words.join("");
+  for (const [index, word] of words) {
+    transformed += index === 0 ? word : `${word.charAt(0).toUpperCase()}${word.slice(1)}`;
+  }
+
+  return transformed;
 };
