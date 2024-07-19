@@ -1,5 +1,6 @@
 import { Body } from "components/article/body";
 import { Jumbotron } from "components/article/jumbotron";
+import { fetchArticles } from "repositories/article/article.repository";
 
 type Params = {
   id: string;
@@ -10,6 +11,12 @@ type Props = {
 };
 
 export const revalidate = 3600;
+
+export const generateStaticParams = async () => {
+  const { results } = await fetchArticles({ pageSize: 10 });
+
+  return results.map((article) => ({ id: article.id }));
+};
 
 const ArticlePage = async ({ params }: Props) => {
   const { id } = params;
