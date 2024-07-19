@@ -16,6 +16,14 @@
   --muted-foreground: 240 3.8% 46.1%;
 
   --border: 240 5.9% 90%;
+
+  --container-sm: 672px;
+  --container-md: 1024px;
+
+  --container-inset: 20px;
+
+  --container-sm-inner: calc(var(--container-sm) - calc(var(--container-inset) * 2));
+  --container-sm-scroll: min(calc(var(--container-sm-inner) * 0.75), 100%);
 }
 
 .dark {
