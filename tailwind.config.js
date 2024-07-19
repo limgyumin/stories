@@ -39,7 +39,7 @@ module.exports = {
   },
   plugins: [
     plugin(({ addUtilities }) => {
-      addUtilities({ ...createEllipsisUtilities(3) });
+      addUtilities({ ...createEllipsisUtilities(3), ...createScrollbarUtilities() }, ["responsive"]);
     }),
   ],
 };
@@ -60,6 +60,36 @@ const createEllipsisUtilities = (count) => {
     ],
     count,
   );
+};
+
+const createScrollbarUtilities = () => {
+  return {
+    ".scrollbar-hide": {
+      /* IE and Edge */
+      "-ms-overflow-style": "none",
+
+      /* Firefox */
+      "scrollbar-width": "none",
+
+      /* Safari and Chrome */
+      "&::-webkit-scrollbar": {
+        display: "none",
+      },
+    },
+
+    ".scrollbar-default": {
+      /* IE and Edge */
+      "-ms-overflow-style": "auto",
+
+      /* Firefox */
+      "scrollbar-width": "auto",
+
+      /* Safari and Chrome */
+      "&::-webkit-scrollbar": {
+        display: "block",
+      },
+    },
+  };
 };
 
 const objectFrom = (entry, count) => {

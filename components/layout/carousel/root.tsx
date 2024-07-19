@@ -49,13 +49,9 @@ export const Root = ({ children }: Props) => {
       <div
         ref={ref}
         className={cx(
-          "flex w-screen snap-x snap-mandatory gap-4 overflow-x-auto md:gap-9",
+          "flex w-screen snap-x snap-mandatory gap-4 overflow-x-auto scrollbar-hide md:gap-9",
           "ml-[calc(var(--container-inset)*-1)] mt-4 px-[calc(var(--container-inset)*2)] py-9 container-sm:ml-[calc(-50vw+var(--container-sm-inner)*.5)] container-sm:px-[calc(50vw-var(--container-sm-scroll)*.5)] md:py-12",
         )}
-        style={{
-          msOverflowStyle: "none",
-          scrollbarWidth: "none",
-        }}
       >
         {children}
       </div>
