@@ -2,8 +2,8 @@ import "server-only";
 
 import { cache } from "react";
 
-import { queryDatabase } from "libs/notion/notion.api";
-import type { Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
+import { queryDatabase, retrieveBlockChildrenDeep, retrievePage } from "libs/notion/notion.api";
+import type { BlockChildren, Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
 
 export type ArticlesOptions = Pick<QueryDatabaseParameters, "pageSize" | "startCursor">;
 
@@ -19,7 +19,7 @@ export type ArticleDatabase = Database<Article>;
 
 const DEFAULT_PAGE_SIZE = 50;
 
-export const fetchArticles = cache((options?: ArticlesOptions) => {
+export const fetchArticles = cache((options?: ArticlesOptions): Promise<ArticleDatabase> => {
   const { pageSize = DEFAULT_PAGE_SIZE, startCursor } = options ?? {};
 
   return queryDatabase<ArticleDatabase>({
@@ -44,3 +44,9 @@ export const fetchArticles = cache((options?: ArticlesOptions) => {
     ],
   });
 });
+
+export const fetchArticle = cache((pageId: string): Promise<Article> => retrievePage<Article>({ pageId }));
+
+export const fetchArticleBody = cache(
+  (blockId: string): Promise<BlockChildren> => retrieveBlockChildrenDeep({ blockId, pageSize: 100 }),
+);
