@@ -37,8 +37,7 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
 };
 
 const getImageSize = async (url: string): Promise<Dimensions> => {
-  // TODO: 환경별 host 분기 필요
-  return fetch(`http://localhost:3000/api/image-dimensions?url=${encodeURIComponent(url)}`).then((res) => res.json());
+  return fetch(`${process.env.DOMAIN}/api/image-dimensions?url=${encodeURIComponent(url)}`).then((res) => res.json());
 };
 
 export const getBlockImageUrl = (block: BlockChild<"image">): string => {
