@@ -1,4 +1,5 @@
 import { Articles } from "components/feed/articles";
+import { Container } from "components/layout/container";
 import { fetchArticles } from "repositories/article/article.repository";
 import type { Viewport } from "types/viewport";
 
@@ -13,7 +14,11 @@ const FeedPage = async ({ searchParams }: Props) => {
 
   const { results } = await fetchArticles();
 
-  return <Articles articles={results} viewport={viewport} />;
+  return (
+    <Container className="min-h-[calc(100vh-9rem)] py-10">
+      <Articles articles={results} viewport={viewport} />
+    </Container>
+  );
 };
 
 export default FeedPage;
