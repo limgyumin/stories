@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 
 import { FaLinkedin } from "react-icons/fa6";
-import { IoLogoGithub } from "react-icons/io5";
+import { IoLogoGithub, IoMailSharp } from "react-icons/io5";
 
 export type Platform = Readonly<{
   name: string;
@@ -22,5 +22,11 @@ export const PLATFORMS: readonly Platform[] = [
     title: "LinkedIn",
     url: "https://www.linkedin.com/in/milimgyu/",
     icon: <FaLinkedin />,
+  },
+  {
+    name: "mail",
+    title: "Mail",
+    url: "mailto:dev.limgyumin@gmail.com",
+    icon: <IoMailSharp />,
   },
 ];
