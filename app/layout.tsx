@@ -15,8 +15,20 @@ export const metadata: Metadata = {
     template: "%s - Nonamed",
     default: "Nonamed",
   },
+  description: "The nonamed stories of a frontend engineer.",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL),
   alternates: {
     canonical: "/",
+  },
+  openGraph: {
+    title: "Nonamed",
+    description: "The nonamed stories of a frontend engineer.",
+    url: process.env.NEXT_PUBLIC_APP_URL,
+  },
+  twitter: {
+    title: "Nonamed",
+    description: "The nonamed stories of a frontend engineer.",
+    card: "summary_large_image",
   },
 };
 
