@@ -8,12 +8,10 @@ export const Footer = () => {
     <footer>
       <Container>
         <div className="flex h-24 w-full items-center justify-between">
-          <div className="flex items-center gap-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-center md:gap-6">
             <p className="text-xs font-normal text-muted-foreground">© 2024 • milimgyu • All rights reserved</p>
 
-            <div className="hidden sm:block">
-              <Contact />
-            </div>
+            <Contact />
           </div>
 
           <ThemeSwitcher />
