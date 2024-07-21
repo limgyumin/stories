@@ -1,6 +1,7 @@
 /** @type {import('next').NextConfig} */
 module.exports = {
   images: {
+    minimumCacheTTL: 31536000, // 1 year
     remotePatterns: [
       {
         protocol: "https",
