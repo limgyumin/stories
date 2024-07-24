@@ -23,7 +23,7 @@ export const ArticleCard = ({ article }: Props) => {
 
   return (
     <li>
-      <Link href={`/articles/${id}`} draggable={false}>
+      <Link href={`/articles/${id}`}>
         <Card.Root>
           <Card.Content>
             <Card.Title>{title}</Card.Title>
