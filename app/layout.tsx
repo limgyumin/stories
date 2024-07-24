@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 
 import type { PropsWithChildren } from "react";
 
+import { Analytics } from "@vercel/analytics/react";
+
 import { Footer } from "components/ui/footer";
 import { Header } from "components/ui/header";
 import { pretendard } from "libs/next/font";
@@ -41,6 +43,8 @@ const RootLayout = ({ children }: PropsWithChildren) => {
           <main className="w-full">{children}</main>
           <Footer />
         </Providers>
+
+        <Analytics />
       </body>
     </html>
   );
