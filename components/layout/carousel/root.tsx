@@ -3,8 +3,7 @@
 import type { PropsWithChildren } from "react";
 import { Children, createContext, useCallback, useRef, useState } from "react";
 
-import { useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-
+import { useScroll } from "hooks/use-scroll";
 import { cx } from "utils/cx";
 
 type Props = PropsWithChildren;
@@ -19,17 +18,14 @@ export const CarouselContext = createContext<CarouselContextValue>({
 });
 
 export const Root = ({ children }: Props) => {
-  const ref = useRef<HTMLDivElement>(null);
+  const ref = useRef<HTMLDivElement | null>(null);
 
   // NOTE: Children.count 함수는 모든 하위 계층의 자식 개수를 반환하므로 Children.toArray 사용
   const count = Children.toArray(children).length;
 
-  const { scrollXProgress } = useScroll({ container: ref });
-  const currentFocusedIndex = useTransform(scrollXProgress, (input) => Math.round(input * (count - 1)));
-
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
 
-  useMotionValueEvent(currentFocusedIndex, "change", (latest) => setFocusedIndex(latest));
+  useScroll(ref, ({ scrollXProgress }) => setFocusedIndex(Math.round(scrollXProgress * (count - 1))));
 
   const focusTo = useCallback(async (index: number) => {
     const container = ref.current;
