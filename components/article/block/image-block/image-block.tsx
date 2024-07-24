@@ -1,12 +1,8 @@
 import Image from "next/image";
 
-import { head, put } from "@vercel/blob";
-import sharp from "sharp";
-
 import type { BlockChild } from "libs/notion/notion.types";
 import type { Dimensions } from "types/dimensions";
 import { cx } from "utils/cx";
-import { getArrayBuffer } from "utils/get-array-buffer";
 
 import { Caption } from "../caption";
 
@@ -47,44 +43,47 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
   );
 };
 
+type ImageResponse = {
+  url: string;
+};
+
 const uploadToStorage = async (id: string, url: string): Promise<string> => {
-  try {
-    const arrayBuffer = await getArrayBuffer(url);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/upload-image`, {
+    method: "POST",
+    body: JSON.stringify({ id, url }),
+  });
 
-    const buffer = await sharp(arrayBuffer)
-      .resize({
-        width: 1080,
-        height: 1080,
-        fit: sharp.fit.inside,
-        withoutEnlargement: true,
-      })
-      .toFormat("webp", { quality: 75 })
-      .toBuffer();
-
-    const result = await put(`images/${id}.webp`, buffer, { access: "public", addRandomSuffix: false });
-
-    return result.url;
-  } catch (error) {
+  if (response.status >= 400) {
     return url;
   }
+
+  const result = (await response.json()) as ImageResponse;
+
+  return result.url;
 };
 
 const getImageUrlFromStorage = async (id: string): Promise<string | undefined> => {
-  try {
-    const result = await head(`${process.env.VERCEL_STORAGE_URL}/images/${id}.webp`);
+  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/uploaded-image-url?id=${id}`);
 
-    return result.url;
-  } catch (error) {
-    return undefined;
+  if (response.status >= 400) {
+    return;
   }
+
+  const result = (await response.json()) as ImageResponse;
+
+  return result.url;
 };
 
-const getImageDimensions = async (url: string): Promise<Dimensions> => {
-  const buffer = await getArrayBuffer(url);
+const getImageDimensions = async (url: string): Promise<Dimensions | undefined> => {
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_APP_URL}/api/image-dimensions?url=${encodeURIComponent(url)}`,
+  );
 
-  const metadata = await sharp(buffer).metadata();
+  if (response.status >= 400) {
+    return;
+  }
 
-  return metadata;
+  return response.json();
 };
 
 export const getBlockImageUrl = (block: BlockChild<"image">): string => {
