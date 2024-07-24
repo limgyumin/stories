@@ -1,8 +1,12 @@
 import Image from "next/image";
 
+import { head, put } from "@vercel/blob";
+import sharp from "sharp";
+
 import type { BlockChild } from "libs/notion/notion.types";
 import type { Dimensions } from "types/dimensions";
 import { cx } from "utils/cx";
+import { getArrayBuffer } from "utils/get-array-buffer";
 
 import { Caption } from "../caption";
 
@@ -12,14 +16,21 @@ type Props = {
 };
 
 export const ImageBlock = async ({ block, intrinsic }: Props) => {
-  const { caption } = block.image;
+  const {
+    id,
+    image: { caption },
+  } = block;
 
-  const url = getBlockImageUrl(block);
+  let url = await getImageUrlFromStorage(id);
+
+  if (url === undefined) {
+    url = await uploadToStorage(id, getBlockImageUrl(block));
+  }
 
   let dimensions: Dimensions | undefined;
 
   if (intrinsic) {
-    dimensions = await getImageSize(url);
+    dimensions = await getImageDimensions(url);
   }
 
   return (
@@ -36,10 +47,44 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
   );
 };
 
-const getImageSize = async (url: string): Promise<Dimensions> => {
-  return fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/image-dimensions?url=${encodeURIComponent(url)}`).then((res) =>
-    res.json(),
-  );
+const uploadToStorage = async (id: string, url: string): Promise<string> => {
+  try {
+    const arrayBuffer = await getArrayBuffer(url);
+
+    const buffer = await sharp(arrayBuffer)
+      .resize({
+        width: 1080,
+        height: 1080,
+        fit: sharp.fit.inside,
+        withoutEnlargement: true,
+      })
+      .toFormat("webp", { quality: 75 })
+      .toBuffer();
+
+    const result = await put(`images/${id}.webp`, buffer, { access: "public", addRandomSuffix: false });
+
+    return result.url;
+  } catch (error) {
+    return url;
+  }
+};
+
+const getImageUrlFromStorage = async (id: string): Promise<string | undefined> => {
+  try {
+    const result = await head(`${process.env.VERCEL_STORAGE_URL}/images/${id}.webp`);
+
+    return result.url;
+  } catch (error) {
+    return undefined;
+  }
+};
+
+const getImageDimensions = async (url: string): Promise<Dimensions> => {
+  const buffer = await getArrayBuffer(url);
+
+  const metadata = await sharp(buffer).metadata();
+
+  return metadata;
 };
 
 export const getBlockImageUrl = (block: BlockChild<"image">): string => {

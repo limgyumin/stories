@@ -12,7 +12,7 @@ type Props = ComponentPropsWithoutRef<"div"> & {
 export const Thumbnail = forwardRef<HTMLDivElement, Props>(async ({ className, src, ...rest }, ref) => {
   return (
     <div ref={ref} className={cx(className, "relative w-full pt-[75%]")} {...rest}>
-      <Image className="absolute top-0 w-full object-cover" src={src} alt={src} priority fill draggable={false} />
+      <Image className="absolute top-0 w-full object-cover" src={src} alt={src} priority fill />
     </div>
   );
 });
