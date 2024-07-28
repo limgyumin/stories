@@ -38,6 +38,7 @@ module.exports = {
     },
   },
   plugins: [
+    require("tailwindcss-animate"),
     plugin(({ addUtilities }) => {
       addUtilities({ ...createEllipsisUtilities(3), ...createScrollbarUtilities() }, ["responsive"]);
     }),
