@@ -1,6 +1,6 @@
 import type { PropsWithChildren } from "react";
 
-import { Carousel } from "components/layout/carousel";
+import { Carousel } from "components/ui/carousel";
 
 type Props = PropsWithChildren<{
   index: number;

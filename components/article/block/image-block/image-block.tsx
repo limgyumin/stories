@@ -1,7 +1,9 @@
-import Image from "next/image";
+import { AiOutlineClose } from "react-icons/ai";
+import { IoIosExpand } from "react-icons/io";
 
+import { Dialog } from "components/ui/dialog";
+import { Image } from "components/ui/image";
 import type { BlockChild } from "libs/notion/notion.types";
-import type { Dimensions } from "types/dimensions";
 import { cx } from "utils/cx";
 
 import { Caption } from "../caption";
@@ -23,19 +25,34 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
     url = await uploadToStorage(id, getBlockImageUrl(block));
   }
 
-  let dimensions: Dimensions | undefined;
-
-  if (intrinsic) {
-    dimensions = await getImageDimensions(url);
-  }
-
   return (
     <div className={cx("mt-4 flex w-full flex-col gap-3 py-2 md:py-4", { "!m-0 !p-0": !intrinsic })}>
-      <div
-        className="relative w-full overflow-hidden rounded-xl md:rounded-2xl"
-        style={{ aspectRatio: intrinsic ? `${dimensions?.width} / ${dimensions?.height}` : "3 / 4" }}
-      >
-        <Image className="object-cover" src={url} alt="" fill draggable={false} />
+      <div className="relative">
+        <Image className="overflow-hidden rounded-xl md:rounded-2xl" src={url} alt="" intrinsic={intrinsic} />
+
+        {intrinsic ? null : (
+          <Dialog.Root>
+            <Dialog.Trigger className="absolute bottom-3 right-3 cursor-pointer">
+              <div className="rounded-md bg-black/65 p-1 text-base text-white">
+                <IoIosExpand />
+              </div>
+            </Dialog.Trigger>
+
+            <Dialog.Overlay />
+
+            <Dialog.Content>
+              <div className="relative">
+                <Dialog.Trigger className="absolute bottom-3 right-3 z-[1] cursor-pointer">
+                  <div className="rounded-md bg-black/65 p-1 text-base text-white">
+                    <AiOutlineClose />
+                  </div>
+                </Dialog.Trigger>
+
+                <Image className="h-auto w-full max-w-full" src={url} alt="" intrinsic />
+              </div>
+            </Dialog.Content>
+          </Dialog.Root>
+        )}
       </div>
 
       <Caption caption={caption} />
@@ -72,18 +89,6 @@ const getImageUrlFromStorage = async (id: string): Promise<string | undefined> =
   const result = (await response.json()) as ImageResponse;
 
   return result.url;
-};
-
-const getImageDimensions = async (url: string): Promise<Dimensions | undefined> => {
-  const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/api/image-dimensions?url=${encodeURIComponent(url)}`,
-  );
-
-  if (response.status >= 400) {
-    return;
-  }
-
-  return response.json();
 };
 
 export const getBlockImageUrl = (block: BlockChild<"image">): string => {
