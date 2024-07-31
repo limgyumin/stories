@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-import type { BlockChild } from "libs/notion/notion.types";
+import type { BlockChild, BlockChildType } from "libs/notion/notion.types";
 import { takeRightWhile } from "utils/take-right-while";
 
 import { CalloutBlock } from "./callout-block";
@@ -13,6 +13,7 @@ import { ImageBlock } from "./image-block";
 import { ListItemBlock } from "./list-item-block";
 import { ParagraphBlock } from "./paragraph-block";
 import { QuoteBlock } from "./quote-block";
+import { TableOfContentsBlock } from "./table-of-contents-block";
 
 type Props = {
   block: BlockChild;
@@ -79,6 +80,8 @@ const render = (block: BlockChild, blocks: BlockChild[], index: number, depth: n
       return <DividerBlock />;
     case "image":
       return <ImageBlock block={block} intrinsic={!isChild} />;
+    case "table_of_contents":
+      return <TableOfContentsBlock blocks={getHeadingBlocks(blocks)} />;
     default:
       return null;
   }
@@ -86,4 +89,14 @@ const render = (block: BlockChild, blocks: BlockChild[], index: number, depth: n
 
 const getNumberedListItemIndex = (blocks: BlockChild[], index: number): number => {
   return takeRightWhile(blocks.slice(0, index + 1), (block) => block.type === "numbered_list_item").length - 1;
+};
+
+const getHeadingBlocks = (blocks: BlockChild[]): BlockChild<"heading_1" | "heading_2" | "heading_3">[] => {
+  return blocks.filter(isHeadingBlock);
+};
+
+const isHeadingBlock = (block: BlockChild): block is BlockChild<"heading_1" | "heading_2" | "heading_3"> => {
+  const blockTypes: readonly BlockChildType[] = ["heading_1", "heading_2", "heading_3"];
+
+  return blockTypes.includes(block.type);
 };
