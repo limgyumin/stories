@@ -18,6 +18,7 @@ export const HeadingBlock = ({ block }: Props) => {
   return (
     <Element
       as={elementTypeMap[block.type]}
+      id={block.id}
       className={cx("font-semibold first:!mt-0 dark:text-gray-300", styleMap[block.type])}
     >
       <RichText richText={getRichText(block)} />
