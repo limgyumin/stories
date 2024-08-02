@@ -4,5 +4,6 @@ declare namespace NodeJS {
     VERCEL_STORAGE_URL: string;
     NOTION_API_KEY: string;
     DATABASE_ID: string;
+    API_ROUTE_KEY: string;
   }
 }

@@ -7,7 +7,11 @@ import sharp from "sharp";
 import { getArrayBuffer } from "utils/get-array-buffer";
 
 export async function POST(request: NextRequest) {
-  const { id, url } = await request.json();
+  const { id, url, key } = await request.json();
+
+  if (key !== process.env.API_ROUTE_KEY) {
+    return NextResponse.json({ error: "Invalid api route key" }, { status: 403 });
+  }
 
   if (!id || !url) {
     return NextResponse.json({ error: "Invalid request body" }, { status: 400 });

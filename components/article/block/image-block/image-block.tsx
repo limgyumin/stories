@@ -67,7 +67,11 @@ type ImageResponse = {
 const uploadToStorage = async (id: string, url: string): Promise<string> => {
   const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/upload-image`, {
     method: "POST",
-    body: JSON.stringify({ id, url }),
+    body: JSON.stringify({
+      key: process.env.API_ROUTE_KEY,
+      id,
+      url,
+    }),
   });
 
   if (response.status >= 400) {
