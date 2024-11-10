@@ -14,21 +14,20 @@ type Props = {
 };
 
 export const ImageBlock = async ({ block, intrinsic }: Props) => {
-  const {
-    id,
-    image: { caption },
-  } = block;
-
-  let url = await getImageUrlFromStorage(id);
-
-  if (url === undefined) {
-    url = await uploadToStorage(id, getBlockImageUrl(block));
-  }
+  const { image } = block;
+  const { url, width = 0, height = 0, caption } = image;
 
   return (
     <div className={cx("mt-4 flex w-full flex-col gap-3 py-2 md:py-4", { "!m-0 !p-0": !intrinsic })}>
       <div className="relative">
-        <Image className="overflow-hidden rounded-xl md:rounded-2xl" src={url} alt="" intrinsic={intrinsic} />
+        <Image
+          className="overflow-hidden rounded-xl md:rounded-2xl"
+          src={url}
+          alt=""
+          intrinsic={intrinsic}
+          width={width}
+          height={height}
+        />
 
         {intrinsic ? null : (
           <Dialog.Root>
@@ -40,7 +39,10 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
 
             <Dialog.Overlay />
 
-            <Dialog.Content>
+            <Dialog.Content
+              className="relative left-[50%] max-h-[calc(100vh-100px)] !w-auto translate-x-[-50%]"
+              style={{ aspectRatio: `${width} / ${height}` }}
+            >
               <div className="relative">
                 <Dialog.Trigger className="absolute bottom-3 right-3 z-[1] cursor-pointer">
                   <div className="rounded-md bg-black/65 p-1 text-base text-white">
@@ -48,7 +50,7 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
                   </div>
                 </Dialog.Trigger>
 
-                <Image className="h-auto w-full max-w-full" src={url} alt="" intrinsic />
+                <Image className="h-full w-full max-w-full" src={url} alt="" intrinsic width={width} height={height} />
               </div>
             </Dialog.Content>
           </Dialog.Root>
@@ -58,47 +60,4 @@ export const ImageBlock = async ({ block, intrinsic }: Props) => {
       <Caption caption={caption} />
     </div>
   );
-};
-
-type ImageResponse = {
-  url: string;
-};
-
-const uploadToStorage = async (id: string, url: string): Promise<string> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/upload-image`, {
-    method: "POST",
-    body: JSON.stringify({
-      key: process.env.API_ROUTE_KEY,
-      id,
-      url,
-    }),
-  });
-
-  if (response.status >= 400) {
-    return url;
-  }
-
-  const result = (await response.json()) as ImageResponse;
-
-  return result.url;
-};
-
-const getImageUrlFromStorage = async (id: string): Promise<string | undefined> => {
-  const response = await fetch(`${process.env.NEXT_PUBLIC_APP_URL}/api/uploaded-image-url?id=${id}`);
-
-  if (response.status >= 400) {
-    return;
-  }
-
-  const result = (await response.json()) as ImageResponse;
-
-  return result.url;
-};
-
-export const getBlockImageUrl = (block: BlockChild<"image">): string => {
-  if (block.image.type === "external") {
-    return block.image.external.url;
-  }
-
-  return block.image.file.url;
 };
