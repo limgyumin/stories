@@ -1,5 +1,5 @@
 import type { Obj } from "types/utils/obj";
 
-export const isObject = <T extends Obj>(arg: unknown): arg is T => {
+export const isObject = (arg: unknown): arg is Obj => {
   return typeof arg === "object" && arg !== null && !Array.isArray(arg);
 };

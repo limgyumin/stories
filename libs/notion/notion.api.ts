@@ -1,5 +1,3 @@
-import "server-only";
-
 import { camelcaseKeys } from "utils/camelcase-keys";
 
 import { client } from "./notion.client";
@@ -53,13 +51,11 @@ export const retrieveBlockChildren = async (options: ListBlockChildrenParameters
   return camelcaseKeys(response) as BlockChildren;
 };
 
-export const retrieveBlockChildrenWithoutPagination = async (
-  options: ListBlockChildrenParameters,
-): Promise<BlockChildren> => {
+export const retrieveEntireBlockChildren = async (options: ListBlockChildrenParameters): Promise<BlockChildren> => {
   const response = await retrieveBlockChildren(options);
 
   if (response.hasMore && response.nextCursor) {
-    const nextResponse = await retrieveBlockChildrenWithoutPagination({ ...options, startCursor: response.nextCursor });
+    const nextResponse = await retrieveEntireBlockChildren({ ...options, startCursor: response.nextCursor });
 
     return {
       ...response,
@@ -71,7 +67,7 @@ export const retrieveBlockChildrenWithoutPagination = async (
 };
 
 export const retrieveBlockChildrenDeep = async (options: ListBlockChildrenParameters): Promise<BlockChildren> => {
-  const response = await retrieveBlockChildrenWithoutPagination(options);
+  const response = await retrieveEntireBlockChildren(options);
 
   const results: BlockChild[] = [];
 
