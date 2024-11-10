@@ -3,6 +3,7 @@
 import type { PropsWithChildren } from "react";
 import { createContext, useCallback, useState } from "react";
 
+import { allowScroll, preventScroll } from "libs/common/scroll";
 import { noop } from "utils/noop";
 
 type Props = PropsWithChildren;
@@ -25,10 +26,12 @@ export const Root = ({ children }: Props) => {
   const toggleState = useCallback(() => {
     if (state === "init") {
       setState("open");
+      preventScroll();
     }
 
     if (state === "open") {
       setState("closed");
+      allowScroll();
       setTimeout(() => setState("init"), 125);
     }
   }, [state]);

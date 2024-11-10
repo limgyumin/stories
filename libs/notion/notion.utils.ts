@@ -1,4 +1,4 @@
-import type { PageObjectResponse, Property } from "./notion.types";
+import type { BlockChild, PageObjectResponse, Property } from "./notion.types";
 
 export const getPlainText = (property: Property<"rich_text" | "title">): string | undefined => {
   if (property.type === "rich_text") {
@@ -14,4 +14,12 @@ export const getCoverImageUrl = (cover: PageObjectResponse["cover"]): string | u
   }
 
   return cover?.file.url;
+};
+
+export const getBlockImageUrl = (block: BlockChild<"image">): string => {
+  if (block.image.type === "external") {
+    return block.image.external.url;
+  }
+
+  return block.image.file.url;
 };

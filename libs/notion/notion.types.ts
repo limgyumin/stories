@@ -7,6 +7,7 @@ import type {
   ListBlockChildrenResponse as _ListBlockChildrenResponse,
 } from "@notionhq/client/build/src/api-endpoints";
 
+import type { Dimensions } from "types/dimensions";
 import type { CamelcaseKeys } from "types/utils/camelcase-keys";
 import type { Override } from "types/utils/override";
 
@@ -27,13 +28,6 @@ export type ListBlockChildrenResults = ListBlockChildrenResponse["results"];
 export type BlockChildWithType = Extract<ListBlockChildrenResults[number], { type: string }>;
 
 export type BlockChildType = BlockChildWithType["type"];
-
-export type BlockChild<T extends BlockChildType = BlockChildType> = Extract<
-  BlockChildWithType,
-  {
-    type: T;
-  }
-> & { children?: BlockChild[] };
 
 export type RichTextChildren = Property<"rich_text">["richText"];
 
@@ -60,6 +54,30 @@ export type Database<P extends PageObjectResponse> = Override<
     results: P[];
   }
 >;
+
+type ImageMeta = Dimensions & {
+  url: string;
+};
+
+type ImageBlockChild = Extract<BlockChildWithType, { type: "image" }>;
+
+type ImageBlockChildWithMeta = Override<
+  ImageBlockChild,
+  {
+    image: ImageBlockChild["image"] & ImageMeta;
+  }
+>;
+
+export type OverrideBlockChild<T extends BlockChildWithType> = Exclude<BlockChildWithType, { type: T["type"] }> | T;
+
+export type BlockChild<T extends BlockChildType = BlockChildType> = Extract<
+  OverrideBlockChild<ImageBlockChildWithMeta>,
+  {
+    type: T;
+  }
+> & {
+  children?: BlockChild[];
+};
 
 export type BlockChildren = Override<
   ListBlockChildrenResponse,
