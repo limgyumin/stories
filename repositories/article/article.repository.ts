@@ -4,6 +4,7 @@ import { cache } from "react";
 
 import { queryDatabase, retrieveBlockChildrenDeep, retrievePage } from "libs/notion/notion.api";
 import type { BlockChildren, Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
+import { transformArticleBody } from "transformers/article/article.transformer";
 
 export type ArticlesOptions = Pick<QueryDatabaseParameters, "pageSize" | "startCursor">;
 
@@ -47,6 +48,8 @@ export const fetchArticles = cache((options?: ArticlesOptions): Promise<ArticleD
 
 export const fetchArticle = cache((pageId: string): Promise<Article> => retrievePage<Article>({ pageId }));
 
-export const fetchArticleBody = cache(
-  (blockId: string): Promise<BlockChildren> => retrieveBlockChildrenDeep({ blockId, pageSize: 100 }),
-);
+export const fetchArticleBody = cache(async (blockId: string): Promise<BlockChildren> => {
+  const response = await retrieveBlockChildrenDeep({ blockId, pageSize: 100 });
+
+  return transformArticleBody(response);
+});
