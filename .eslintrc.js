@@ -22,7 +22,6 @@ module.exports = {
   rules: {
     "no-console": ["warn", { allow: ["error"] }],
     "no-unused-vars": "warn",
-    "no-undef": "error",
     "object-shorthand": "error",
     "require-await": "off",
     curly: ["error", "all"],

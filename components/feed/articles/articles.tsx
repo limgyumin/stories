@@ -6,7 +6,7 @@ type Props = {
   articles: Article[];
 };
 
-export const Articles = ({ articles }: Props) => {
+export const Articles = async ({ articles }: Props) => {
   return (
     <ul className="grid grid-cols-1 gap-[20px] sm:grid-cols-2 md:grid-cols-3">
       {articles.map((article) => (
