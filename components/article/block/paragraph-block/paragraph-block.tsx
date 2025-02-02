@@ -1,3 +1,4 @@
+import { Highlight } from "components/article/highlight";
 import type { BlockChild } from "libs/notion/notion.types";
 
 import { RichText } from "../rich-text";
@@ -12,8 +13,10 @@ export const ParagraphBlock = ({ block }: Props) => {
   }
 
   return (
-    <p className="mt-3 py-1 first:!mt-0 md:mt-4">
-      <RichText richText={block.paragraph.richText} />
-    </p>
+    <Highlight>
+      <p className="mt-3 py-1 first:!mt-0 md:mt-4">
+        <RichText richText={block.paragraph.richText} />
+      </p>
+    </Highlight>
   );
 };
