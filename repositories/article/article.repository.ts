@@ -2,6 +2,7 @@ import "server-only";
 
 import { cache } from "react";
 
+import { ArticleStatus } from "constants/article/status";
 import { queryDatabase, retrieveBlockChildrenDeep, retrievePage } from "libs/notion/notion.api";
 import type { BlockChildren, Database, Page, QueryDatabaseParameters } from "libs/notion/notion.types";
 import { transformArticleBody } from "transformers/article/article.transformer";
@@ -32,7 +33,7 @@ export const fetchArticles = cache((options?: ArticlesOptions): Promise<ArticleD
         {
           property: "status",
           select: {
-            equals: "Published",
+            equals: ArticleStatus.Published,
           },
         },
       ],

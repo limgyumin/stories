@@ -6,15 +6,13 @@ import dayjs from "dayjs";
 
 import { Container } from "components/layout/container";
 import { getCoverImageUrl, getPlainText } from "libs/notion/notion.utils";
-import { fetchArticle } from "repositories/article/article.repository";
+import type { Article } from "repositories/article/article.repository";
 
 type Props = {
-  id: string;
+  article: Article;
 };
 
-export const Jumbotron = async ({ id }: Props) => {
-  const article = await fetchArticle(id);
-
+export const Jumbotron = async ({ article }: Props) => {
   const { properties, cover } = article;
 
   const title = getPlainText(properties.title) ?? "";

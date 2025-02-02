@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { Body } from "components/article/body";
 import { Jumbotron } from "components/article/jumbotron";
+import { isPublished } from "libs/article/is-published";
 import { getCoverImageUrl, getPlainText } from "libs/notion/notion.utils";
 import { fetchArticles, fetchArticle } from "repositories/article/article.repository";
 
@@ -19,7 +21,13 @@ export const generateMetadata = async ({ params }: Props): Promise<Metadata> => 
   const { id } = params;
 
   try {
-    const { cover, properties, lastEditedTime } = await fetchArticle(id);
+    const article = await fetchArticle(id);
+
+    if (!isPublished(article)) {
+      return {};
+    }
+
+    const { cover, properties, lastEditedTime } = article;
 
     const title = getPlainText(properties.title);
     const description = getPlainText(properties.description);
@@ -64,10 +72,16 @@ export const generateStaticParams = async () => {
 const ArticlePage = async ({ params }: Props) => {
   const { id } = params;
 
+  const article = await fetchArticle(id);
+
+  if (!isPublished(article)) {
+    notFound();
+  }
+
   return (
     <div className="min-h-[calc(100vh-9rem)] pb-12 pt-10 md:pb-20">
       <article className="flex flex-col gap-8 md:gap-14">
-        <Jumbotron id={id} />
+        <Jumbotron article={article} />
         <Body id={id} />
       </article>
     </div>
