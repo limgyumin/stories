@@ -21,6 +21,7 @@ export async function POST(request: NextRequest) {
     const arrayBuffer = await getArrayBuffer(url);
 
     const buffer = await sharp(arrayBuffer)
+      .rotate()
       .resize({
         width: 1080,
         height: 1080,
