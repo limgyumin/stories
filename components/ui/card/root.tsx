@@ -10,7 +10,7 @@ const Root = <T extends ElementType>({ as, children, className, ...rest }: Props
   const Component = as ?? "div";
 
   return (
-    <Component ref={ref} className={cx(className, "relative overflow-hidden rounded-lg")} {...rest}>
+    <Component ref={ref} className={cx(className, "group relative block overflow-hidden rounded-lg")} {...rest}>
       {children}
     </Component>
   );

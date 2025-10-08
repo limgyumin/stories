@@ -8,7 +8,7 @@ import { cx } from "utils/cx";
 import { noop } from "utils/noop";
 import { mergeRefs } from "utils/react/merge-refs";
 
-type Props = ComponentPropsWithoutRef<"div">;
+type Props = ComponentPropsWithoutRef<"ul">;
 
 type CarouselContextValue = {
   focusedIndex: number;
@@ -20,8 +20,8 @@ export const CarouselContext = createContext<CarouselContextValue>({
   focusTo: noop,
 });
 
-export const Root = forwardRef<HTMLDivElement, Props>(({ children, className, ...rest }, ref) => {
-  const containerRef = useRef<HTMLDivElement | null>(null);
+export const Root = forwardRef<HTMLUListElement, Props>(({ children, className, ...rest }, ref) => {
+  const containerRef = useRef<HTMLUListElement | null>(null);
 
   // NOTE: Children.count 함수는 모든 하위 계층의 자식 개수를 반환하므로 Children.toArray 사용
   const count = Children.toArray(children).length;
@@ -47,7 +47,7 @@ export const Root = forwardRef<HTMLDivElement, Props>(({ children, className, ..
 
   return (
     <CarouselContext.Provider value={{ focusedIndex, focusTo }}>
-      <div
+      <ul
         ref={mergeRefs(ref, containerRef)}
         className={cx(
           className,
@@ -57,7 +57,7 @@ export const Root = forwardRef<HTMLDivElement, Props>(({ children, className, ..
         {...rest}
       >
         {children}
-      </div>
+      </ul>
     </CarouselContext.Provider>
   );
 });
