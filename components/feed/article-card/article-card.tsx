@@ -23,19 +23,17 @@ export const ArticleCard = ({ article }: Props) => {
 
   return (
     <li>
-      <Link href={`/articles/${id}`}>
-        <Card.Root>
-          <Card.Content>
-            <Card.Title>{title}</Card.Title>
-            <Card.Description>{description}</Card.Description>
-            <Card.Meta>
-              {series} • {formattedPublishedAt}
-            </Card.Meta>
-          </Card.Content>
+      <Card.Root as={Link} href={`/articles/${id}`}>
+        <Card.Content>
+          <Card.Title>{title}</Card.Title>
+          <Card.Description>{description}</Card.Description>
+          <Card.Meta>
+            {series} • {formattedPublishedAt}
+          </Card.Meta>
+        </Card.Content>
 
-          <Card.Thumbnail src={coverImageUrl} />
-        </Card.Root>
-      </Link>
+        <Card.Thumbnail src={coverImageUrl} />
+      </Card.Root>
     </li>
   );
 };
