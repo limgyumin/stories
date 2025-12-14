@@ -1,5 +1,3 @@
-import React from "react";
-
 import type { RichTextChildren } from "libs/notion/notion.types";
 
 import { RichText } from "../rich-text";

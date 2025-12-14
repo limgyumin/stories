@@ -4,7 +4,6 @@ type ScrollCallbackArgs = {
   scrollXProgress: number;
 };
 
-// eslint-disable-next-line no-undef
 type ScrollCallback = (args: ScrollCallbackArgs) => void;
 
 export const useScroll = (ref: RefObject<HTMLElement | null | undefined>, callback: ScrollCallback) => {

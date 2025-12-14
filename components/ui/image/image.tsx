@@ -19,6 +19,7 @@ export const Image = async ({ src, alt, intrinsic, className, style, width = 0, 
       style={{ ...style, aspectRatio: intrinsic ? `${width} / ${height}` : "3 / 4" }}
       {...rest}
     >
+      {/* TODO: sizes prop */}
       <NextImage className="h-full w-full object-cover" src={src} alt={alt} fill />
     </div>
   );

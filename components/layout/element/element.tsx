@@ -1,10 +1,11 @@
-import { forwardRef, type ComponentPropsWithoutRef, type ElementType, type Ref } from "react";
+import { type ElementType, type ComponentPropsWithRef } from "react";
 
 import type { ElementSelector } from "types/element-selector";
+import type { Override } from "types/utils/override";
 
-type Props<T extends ElementType> = ComponentPropsWithoutRef<T> & ElementSelector<T>;
+type Props<T extends ElementType> = Override<ComponentPropsWithRef<T>, ElementSelector<T>>;
 
-const Element = <T extends ElementType>({ children, as, ...rest }: Props<T>, ref: Ref<any>) => {
+export const Element = <T extends ElementType>({ ref, children, as, ...rest }: Props<T>) => {
   const Component = as ?? "div";
 
   return (
@@ -13,7 +14,3 @@ const Element = <T extends ElementType>({ children, as, ...rest }: Props<T>, ref
     </Component>
   );
 };
-
-const Default = forwardRef(Element) as typeof Element;
-
-export { Default as Element };

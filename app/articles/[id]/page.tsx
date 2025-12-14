@@ -12,13 +12,13 @@ type Params = {
 };
 
 type Props = {
-  params: Params;
+  params: Promise<Params>;
 };
 
 export const revalidate = 3600;
 
 export const generateMetadata = async ({ params }: Props): Promise<Metadata> => {
-  const { id } = params;
+  const { id } = await params;
 
   try {
     const article = await fetchArticle(id);
@@ -70,7 +70,7 @@ export const generateStaticParams = async () => {
 };
 
 const ArticlePage = async ({ params }: Props) => {
-  const { id } = params;
+  const { id } = await params;
 
   const article = await fetchArticle(id);
 
